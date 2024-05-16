@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block title %}Liste des Utilisateurs{% endblock %}
+{% block content %}  
+    
+        <div class="table-article">
+            <table class="content-table">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Mot de passe</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Rôle</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for profil in profils %}
+                <tr>
+                    <td>{{ profil.email }}</td>
+                    <td>{{ profil.getPassword() }}</td>
+                    <td>{{ profil.nom }}</td>
+                    <td>{{ profil.prenom }}</td>
+                    <td>{{ profil.role.nom }}</td>
+                    <td>
+                            <a class="btn-tab" href="{{ path('profil_modification', { 'id': profil.id }) }}">
+                                <button id="btn-tab" class="btn-tab">
+                                    <img class="img-navbar" src="{{ asset('img/crayon.png') }}">
+                                </button>
+                            </a>
+                            <a class="btn-tab" href="{{ path('profil_delete', { 'id': profil.id }) }}">
+                                <button id="btn-tab" class="btn-tab">
+                                    <img class="img-navbar" src="{{ asset('img/poubelle.png') }}">
+                                </button>
+                            </a>
+                        </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    
+{% endblock %}
+

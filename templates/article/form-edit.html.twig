@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier cet article{% endblock %}
+{% block content %}
+    {{ form_start(formArticle) }}
+        {{ form_row(formArticle.titre, {'attr': {'class': 'form-input'}}) }}<br>
+        {{ form_row(formArticle.texte, {'attr': {'class': 'form-input form-text'}}) }}<br>
+        {{ form_row(formArticle.image) }}<br>
+        <input type="submit" value="Enregistrer" class="form-button">
+    {{ form_end(formArticle) }}
+{% endblock %}
+
+

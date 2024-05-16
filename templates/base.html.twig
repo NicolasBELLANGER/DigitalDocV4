@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="FR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigitalDoc</title>
+    <link rel="stylesheet" href="{{asset('css/styles.css')}}">
+</head>
+<body>
+    {% block navbar %}
+    <nav class="navbar color-bg">
+        <a class="navbar-title">DigitalDoc</a>
+        <button id="btn-hamburger" class="btn-hamburger" href="">
+            <img class="img-navbar" src="{{asset('img/hamburger.png')}}">
+        </button>
+        <form class="form-navbar" action="/rechercher" method="get">
+            <div class="search-input">
+                <input class="search-bar input-form" type="text" placeholder="Rechercher...">
+                <button class="btn-search" type="button">
+                    <img class="img-navbar img-search-icon" src="{{asset('img/loupe-arrondie.png')}}">
+                </button>
+            </div>
+        </form>
+        <ul class="navbar-profil" id="navbar-profil">
+            <li>
+                <a class="item-drop">
+                    <img class="img-navbar" src="{{asset('img/profil.png')}}">
+                </a>
+                <ul class="item-menu" id="item-menu">
+                    <li>
+                        <a class="item-profil" href="{{ path('app_profil') }}">Profil</a>
+                    </li>
+                    <li>
+                        <a class="item-profil" href="">Déconnexion</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="main-body">
+        <div class="position-side-menu">
+            <div id="side-menu" class="side-menu">
+                <a class="item-side-menu" href="{{ path('app_home') }}">
+                    <img class="img-navbar right" src="{{asset('img/home.png')}}"> Accueil</a>
+                <a id="article-side-list" class="item-side-menu">
+                    <img class="img-navbar right" src="{{asset('img/book.png')}}"> Articles
+                    <img class="img-navbar left" src="{{asset('img/arrow.png')}}">
+                </a>
+                <div class="position-second-side-menu">
+                    <div class="second-side-menu">
+                        <a class="item-side-menu" href="{{ path('app_article') }}">Voir Articles</a>
+                        <a class="item-side-menu" href="{{ path('article_creation') }}">Créer Articles</a>
+                        <a class="item-side-menu" href="{{ path('gerer_article') }}">Gérer Articles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+        <div class="side-content">
+            <main class="main">
+                <div class="content">
+                    <h1>{% block title %}Article récents :{% endblock %}</h1>
+                    {% block content %}
+                    <div class="table-article">
+                        <table class="content-table">
+                            <thead>
+                              <tr>
+                                <th>Titre</th>
+                                <th>Auteur</th>
+                                <th>Categories</th>
+                                <th>Dernière date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Mise à jour des offres du mois</td>
+                                <td>Nicolas BELLANGER</td>
+                                <td>BDD</td>
+                                <td>27/04/2024</td>
+                              </tr>
+                              <tr>
+                                <td>Modifier les distributeurs</td>
+                                <td>Nicolas BELLANGER</td>
+                                <td>UberALL</td>
+                                <td>27/04/2024</td>
+                              </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endblock %}
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+<script src="{{asset('js/scripts.js')}}"></script>
+</html>

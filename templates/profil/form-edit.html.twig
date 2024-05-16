@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un Utilisateur{% endblock %}
+{% block content %}                        
+{{ form_start(formProfil) }}
+    {{ form_row(formProfil.email, {'attr': {'class': 'form-input'}}) }}
+    {{ form_row(formProfil.password, {'attr': {'class': 'form-input'}}) }}
+    {{ form_row(formProfil.nom, {'attr': {'class': 'form-input'}}) }}
+    {{ form_row(formProfil.prenom, {'attr': {'class': 'form-input'}}) }}
+    <label for="form_role">Rôles :</label>
+    {{ form_widget(formProfil.role, {'attr': {'class': 'form-input'}}) }}
+    <input type="submit" value="Enregistrer" class="form-button">
+{{ form_end(formProfil) }}
+
+{% endblock %}
+

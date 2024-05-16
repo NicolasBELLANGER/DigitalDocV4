@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{article.titre}}{% endblock %}
+{% block content %}
+    <div class="content-position">
+        <p>{{article.texte}}</p>
+    </div>
+    <div class="content-details">
+        <p>Créé par {% if article.user is not null %}
+                                {{ article.user.nom }}
+                            {% else %}
+                                Auteur inconnu
+                            {% endif %}, le {{article.getDateCreation() | date('d/m/Y')}}</p>
+    </div>
+
+{% endblock %}

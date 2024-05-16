@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+        <div class="table-article">
+            <table class="content-table">
+                <thead>
+                    <tr>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Categories</th>
+                    <th>Dernière date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td><a class="link-show" href="{{ path('article_show', { 'id': article.id }) }}">{{ article.titre }}</a></td>
+                        <td>{% if article.user is not null %}
+                                {{ article.user.nom }}
+                            {% else %}
+                                Auteur inconnu
+                            {% endif %}</td>
+                        <td>{{ article.categories.nom }}</td>
+                        <td>{% if article.getDateModification() is null %}
+                                {{ article.getDateCreation() | date('d/m/Y H:i:s') }}
+                            {% else %}
+                                {{ article.getDateModification() | date('d/m/Y H:i:s') }}
+                            {% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock %}
+
+
+
