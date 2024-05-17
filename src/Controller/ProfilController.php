@@ -16,7 +16,8 @@ class ProfilController extends AbstractController
     #[Route('/profil', name: 'app_profil')]
     public function index(ManagerRegistry $doctrine): Response
     {
-        $profils = $doctrine->getRepository(User::class)->findAll();
+        
+        $profils = $this->getUser();
         return $this->render('profil/index.html.twig', [
             'profils' => $profils,
         ]);
@@ -31,7 +32,7 @@ class ProfilController extends AbstractController
         ]);
     }
 
-    #[Route('/profil/creation', name: 'profil_creation')]
+    /*#[Route('/profil/creation', name: 'profil_creation')]
     public function add(ManagerRegistry $doctrine, Request $request, UserPasswordHasherInterface $profilPasswordHasher)
     {
         $entityManager = $doctrine->getManager();
@@ -57,7 +58,7 @@ class ProfilController extends AbstractController
         return $this->render('profil/form-add.html.twig', [
             'formProfil' => $formProfil->createView(),
         ]);
-    }
+    }*/
 
     #[Route('/profil/modification/{id}', name: 'profil_modification')]
     public function edit(ManagerRegistry $doctrine, $id, Request $request, UserPasswordHasherInterface $profilPasswordHasher)

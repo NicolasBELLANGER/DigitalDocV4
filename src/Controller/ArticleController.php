@@ -21,7 +21,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/articles', name: 'gerer_article')]
+    #[Route('/articles/gestion', name: 'gerer_article')]
     public function gerer(ManagerRegistry $doctrine): Response
     {
         $articles = $doctrine->getRepository(Article::class)->findAll();
@@ -35,8 +35,11 @@ class ArticleController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
 
+        $user = $this->getUser();
+
         $article = new Article();
         $article->setDateCreation(new \DateTimeImmutable());
+        $article->setUser($user);
 
         $formArticle = $this->createForm(FormulaireCreationArticleType::class, $article);
         $formArticle->handleRequest($request);
