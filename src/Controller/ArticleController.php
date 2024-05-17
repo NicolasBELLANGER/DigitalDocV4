@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\User;
 use App\Form\FormulaireCreationArticleType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,11 +22,15 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/articles/gestion', name: 'gerer_article')]
+    #[Route('/articles/gestion', name: 'gestion_article')]
     public function gerer(ManagerRegistry $doctrine): Response
     {
+        $user = $this->getUser();
+        if (!$user instanceof User || (!$user->hasRole('Administrateur') && !$user->hasRole('Editeur'))) {
+            return $this->redirectToRoute('app_home');
+        }
         $articles = $doctrine->getRepository(Article::class)->findAll();
-        return $this->render('article/gerer.html.twig', [
+        return $this->render('article/gestion.html.twig', [
             'articles' => $articles,
         ]);
     }
@@ -36,6 +41,9 @@ class ArticleController extends AbstractController
         $entityManager = $doctrine->getManager();
 
         $user = $this->getUser();
+        if (!$user instanceof User || (!$user->hasRole('Administrateur') && !$user->hasRole('Editeur'))) {
+            return $this->redirectToRoute('app_home');
+        }
 
         $article = new Article();
         $article->setDateCreation(new \DateTimeImmutable());
@@ -56,6 +64,11 @@ class ArticleController extends AbstractController
     #[Route('/articles/modification/{id}', name: 'article_modification')]
     public function edit(ManagerRegistry $doctrine, $id, Request $request)
     {
+        $user = $this->getUser();
+        if (!$user instanceof User || (!$user->hasRole('Administrateur') && !$user->hasRole('Editeur'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $entityManager = $doctrine->getManager();
         $article = $doctrine->getRepository(Article::class)->find($id);
         $article->setDateModification(new \DateTimeImmutable());
@@ -74,6 +87,11 @@ class ArticleController extends AbstractController
     #[Route('/articles/show/{id}', name: 'article_show')]
     public function show(ManagerRegistry $doctrine, $id)
     {
+        $user = $this->getUser();
+        if (!$user instanceof User || (!$user->hasRole('Administrateur') && !$user->hasRole('Editeur'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $articles = $doctrine->getRepository(Article::class)->find($id);
         return $this->render('article/show.html.twig', [
             'articles' => $articles,
@@ -83,6 +101,11 @@ class ArticleController extends AbstractController
     #[Route('/articles/delete/{id}', name: 'article_delete')]
     public function delete(ManagerRegistry $doctrine, $id)
     {
+        $user = $this->getUser();
+        if (!$user instanceof User || (!$user->hasRole('Administrateur') && !$user->hasRole('Editeur'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $article = $doctrine->getRepository(Article::class)->find($id);
         $entityManager = $doctrine->getManager();
         $entityManager->remove($article);

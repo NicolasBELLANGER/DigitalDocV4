@@ -14,7 +14,7 @@
                 {% for article in articles %}
                     <tr>
                         <td><a class="link-show" href="{{ path('article_show', { 'id': article.id }) }}">{{ article.titre }}</a></td>
-                        <td>{{ article.user.prenom }}{{ article.user.nom }}</td>
+                        <td>{{ article.user.prenom }} {{ article.user.nom }}</td>
                         <td>{{ article.categories.nom }}</td>
                         <td>{% if article.getDateModification() is null %}
                                 {{ article.getDateCreation() | date('d/m/Y H:i:s') }}

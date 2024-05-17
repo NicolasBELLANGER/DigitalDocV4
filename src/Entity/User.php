@@ -210,4 +210,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function hasRole(string $roleName): bool
+    {
+        return $this->role !== null && $this->role->getNom() === $roleName;
+    }
 }

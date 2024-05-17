@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfilController extends AbstractController
 {
     #[Route('/profil', name: 'app_profil')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(): Response
     {
         
         $profils = $this->getUser();
@@ -24,8 +24,12 @@ class ProfilController extends AbstractController
     }
 
     #[Route('/profil/list', name: 'profil_list')]
-    public function list(ManagerRegistry $doctrine, Request $request)
+    public function list(ManagerRegistry $doctrine)
     {
+        $user = $this->getUser();
+        if (!$user instanceof User || !$user->hasRole('Administrateur')) {
+            return $this->redirectToRoute('app_home');
+        }
         $profils = $doctrine->getRepository(User::class)->findAll();
         return $this->render('profil/list.html.twig', [
             'profils' => $profils,
@@ -63,6 +67,11 @@ class ProfilController extends AbstractController
     #[Route('/profil/modification/{id}', name: 'profil_modification')]
     public function edit(ManagerRegistry $doctrine, $id, Request $request, UserPasswordHasherInterface $profilPasswordHasher)
     {
+        $user = $this->getUser();
+        if (!$user instanceof User || !$user->hasRole('Administrateur')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $entityManager = $doctrine->getManager();
         $profil = $doctrine->getRepository(User::class)->find($id);
         $profil->setDateModification(new \DateTimeImmutable());
@@ -90,6 +99,11 @@ class ProfilController extends AbstractController
     #[Route('/profil/delete/{id}', name: 'profil_delete')]
     public function delete(ManagerRegistry $doctrine, $id)
     {
+        $user = $this->getUser();
+        if (!$user instanceof User || !$user->hasRole('Administrateur')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $profil = $doctrine->getRepository(User::class)->find($id);
         $entityManager = $doctrine->getManager();
         $entityManager->remove($profil);
