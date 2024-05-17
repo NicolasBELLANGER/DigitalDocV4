@@ -49,8 +49,10 @@
                 <div class="position-second-side-menu">
                     <div class="second-side-menu">
                         <a class="item-side-menu" href="{{ path('app_article') }}">Voir Articles</a>
+                        {% if app.user is not null and app.user.role is not null and (app.user.role.nom == 'Administrateur' or app.user.role.nom == 'Editeur') %}                        
                         <a class="item-side-menu" href="{{ path('article_creation') }}">Créer Articles</a>
                         <a class="item-side-menu" href="{{ path('gestion_article') }}">Gérer Articles</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
