@@ -7,5 +7,20 @@
     <div class="content-details">
         <p>Créé par {{ articles.user.prenom }} {{ articles.user.nom }}, le {{articles.getDateCreation() | date('d/m/Y')}}</p>
     </div>
-
+    <div class="comment-form">
+        {{ form_start(formCommentaire) }}
+        {{ form_widget(formCommentaire) }}
+        <button type="submit">Ajouter un commentaire</button>
+        {{ form_end(formCommentaire) }}
+    </div>
+    <div class="commentaire-section">
+        <h3>Commentaires</h3>
+        {% for commentaire in articles.commentaires %}
+            <div class="comment">
+                <p>{{ commentaire.texte}}</p>
+            </div>
+        {% else %}
+            <p>Aucun commentaire pour cet Article</p>
+        {% endfor %}
+    </div>
 {% endblock %}

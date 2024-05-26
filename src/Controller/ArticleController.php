@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Commentaire;
 use App\Entity\User;
 use App\Form\FormulaireCreationArticleType;
+use App\Form\FormulaireCreationCommentaireType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +18,10 @@ class ArticleController extends AbstractController
     #[Route('/articles', name: 'app_article')]
     public function index(ManagerRegistry $doctrine): Response
     {
+        $user = $this->getUser();
+        if (!$user instanceof User || (!$user->hasRole('Administrateur') && !$user->hasRole('Editeur') && !$user->hasRole('Viewer'))) {
+            return $this->redirectToRoute('app_login');
+        }
         $articles = $doctrine->getRepository(Article::class)->findAll();
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
@@ -85,16 +91,31 @@ class ArticleController extends AbstractController
     }    
 
     #[Route('/articles/show/{id}', name: 'article_show')]
-    public function show(ManagerRegistry $doctrine, $id)
+    public function show(ManagerRegistry $doctrine, Request $request, $id)
     {
         $user = $this->getUser();
-        if (!$user instanceof User || (!$user->hasRole('Administrateur') && !$user->hasRole('Editeur'))) {
-            return $this->redirectToRoute('app_home');
+        if (!$user instanceof User || (!$user->hasRole('Administrateur') && !$user->hasRole('Editeur') && !$user->hasRole('Viewer'))) {
+            return $this->redirectToRoute('app_login');
         }
 
         $articles = $doctrine->getRepository(Article::class)->find($id);
+
+        //Création du formulaire de commentaire
+        $commentaire = new Commentaire();
+        $formCommentaire = $this->createForm(FormulaireCreationCommentaireType::class, $commentaire);
+        $formCommentaire->handleRequest($request);
+
+        if($formCommentaire->isSubmitted() && $formCommentaire->isValid()){
+            $commentaire->setArticle(($articles));
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('article_show', ['id' => $id]);
+        }
         return $this->render('article/show.html.twig', [
             'articles' => $articles,
+            'formCommentaire' => $formCommentaire->createView(),
         ]);
     }   
 

@@ -2,7 +2,7 @@ body {
   height: 100%;
   margin: 0;
   font-family: HyundaiHeadMedium,sans-serif;
-  background-color: #fff;
+  background-color: #f1f1f1;
 }
 /* --------------NavBar--------------*/
 .navbar {
@@ -15,32 +15,31 @@ body {
   padding-top: 8px;
   padding-bottom: 8px;
   z-index: 1039;
+  border-bottom: 3px solid #FF5100;
 }
 .color-bg{
   opacity: 1;
-  background-color: #222;
+  background-color: #fff;
 }
 .navbar-title {
-  display: inline-block;
-  margin: 0;
-  width: 225px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 1rem;
-  color: #fff;
-  font-size: 20px;
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  margin-right: 6%;
 }
 .img-navbar{
   height: 1.2rem;
   vertical-align: middle;
   cursor: pointer;
 }
+.img-navbar2{
+  width: 100%;
+  height: 40px;
+}
 .btn-hamburger{
   color: #222;
   cursor: pointer;
   border: none;
-  background: #222;
+  background: #fff;
 }
 .form-navbar{
   margin-left: auto;
@@ -66,12 +65,14 @@ body {
   background-color: #fff;
   outline: none;
   text-indent: 10px;
+  border: 1px solid black;
 }
 .btn-search{
   border: none;
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
   cursor: pointer;
+  border: 1px solid black;
 }
 .navbar-profil{
   display: flex;
@@ -124,7 +125,7 @@ body {
   border-right: 0.3em solid transparent;
   border-bottom: 0;
   border-left: 0.3em solid transparent;
-  color: #fff;
+  color: #FF5100;
   vertical-align: middle;
 }
 /*------------------------------------------------*/
@@ -142,8 +143,9 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #222;
+  background-color: #fff;
   color: #fff;
+  border-right: 3px solid #FF5100;
   padding-top: 56px;
   transition: transform 0.3s ease;
   transform: translateX(0);
@@ -156,7 +158,7 @@ body {
   text-decoration: none;
   font-size: 17px;
   padding: 12px 16px 12px 16px;
-  color: #fff;
+  color: #FF5100;
   cursor: pointer;
 }
 .item-side-menu:hover{
@@ -277,8 +279,41 @@ background-color: #2e2e2e;
 }
 
 /*------------------------------------------------*/
+.info {
+  margin-bottom: 10px;
+}
+.info label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+.info span {
+  display: block;
+  font-size: 16px;
+  color: #666;
+}
+/*------------------Profil--------------------*/
+.profil-action{
+  display: inline-grid;
+}
+.profil-btn{
+  margin-top: 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #FF5100;
+    padding: 10px;
+}
+.a-btn{
+  text-decoration: none;
+  color: white;
+}
+/*------------------------------------------------*/
 /*------------------Responsive--------------------*/
 @media (max-width: 768px) {
+  h1{
+    font-size: 1.5em;
+  }
   .navbar {
     display: flex;
     justify-content: space-between;

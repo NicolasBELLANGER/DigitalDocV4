@@ -16,8 +16,10 @@ class ProfilController extends AbstractController
     #[Route('/profil', name: 'app_profil')]
     public function index(): Response
     {
-        
         $profils = $this->getUser();
+        if (!$profils instanceof User || (!$profils->hasRole('Administrateur') && !$profils->hasRole('Editeur') && !$profils->hasRole('Viewer'))) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('profil/index.html.twig', [
             'profils' => $profils,
         ]);

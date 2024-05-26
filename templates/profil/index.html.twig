@@ -1,7 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil de {{ profils.prenom }}{% endblock %}
+{% block title %}Mes informations{% endblock %}
 
 {% block content %}
-
+    <div class="info">
+        <label for="nom">Nom :</label>
+        <span id="nom">{{ profils.nom }}</span>
+    </div>
+    <div class="info">
+        <label for="prenom">Prénom :</label>
+        <span id="prenom">{{ profils.prenom }}</span>
+    </div>
+    <div class="info">
+        <label for="email">Email :</label>
+        <span id="email">{{ profils.email }}</span>
+    </div>
+    <div class="info">
+        <label for="role">Rôle :</label>
+        <span id="role">{{ profils.role.nom }}</span>
+    </div>
+    <div class="profil-action">
+        {% if app.user is not null and app.user.role is not null and (app.user.role.nom == 'Editeur' or app.user.role.nom == 'Administrateur') %}
+        <button class="profil-btn" type="submit">
+            <a class="a-btn" href="{{ path('profil_modification', {'id': profils.id })}}">Modifier profil</a>
+        </button>
+        {% endif %}
+        {% if app.user is not null and app.user.role is not null and (app.user.role.nom == 'Administrateur') %}
+        <button class="profil-btn" type="submit">
+            <a class="a-btn" href="{{ path('app_register') }}">Créer profil</a>
+        </button>
+        <button class="profil-btn" type="submit">
+            <a class="a-btn" href="{{ path('profil_list') }}">Gestion profil</a>
+        </button>
+        {% endif %}
+    </div>
+    
 {% endblock %}
+
+

@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $user = $this->getUser();
-        if (!$user instanceof User || (!$user->hasRole('Administrateur') && !$user->hasRole('Editeur') && !$user->hasRole('Editeur'))) {
+        if (!$user instanceof User || (!$user->hasRole('Administrateur') && !$user->hasRole('Editeur') && !$user->hasRole('Viewer'))) {
             return $this->redirectToRoute('app_login');
         }
 
