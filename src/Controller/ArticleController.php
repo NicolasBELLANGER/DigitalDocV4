@@ -135,4 +135,20 @@ class ArticleController extends AbstractController
         return $this->redirectToRoute('app_home');
     }  
 
+    #[Route('/commentaire/delete/{id}', name: 'commentaire_delete')]
+    public function deleteComment(ManagerRegistry $doctrine, $id)
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User || !$user->hasRole('Administrateur')) {
+            return $this->redirectToRoute('app_home');
+        }
+        $commentaire = $doctrine->getRepository(Commentaire::class)->find($id);
+        $articleId = $commentaire->getArticle()->getId();
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($commentaire);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('article_show', ['id' => $articleId]);
+    }  
+
 }
