@@ -162,7 +162,7 @@ body {
   cursor: pointer;
 }
 .item-side-menu:hover{
-background-color: #2e2e2e;
+background-color: #f1f1f1;
 }
 .right{
   padding-right: 10px;
@@ -211,7 +211,7 @@ background-color: #2e2e2e;
 .content-table{
   width: 100%;
   border-collapse: collapse;
-  margin: 25px 0;
+  margin: auto;
   font-size: 1rem;
   border-radius: 5px 5px 0 0;
   overflow: hidden;
@@ -342,6 +342,9 @@ background-color: #2e2e2e;
   font-size: 13px;
   margin-bottom: 20px;
 }
+.size-image{
+  width: 100%;
+}
 /*------------------Responsive--------------------*/
 @media (max-width: 768px) {
   h1{
@@ -370,7 +373,7 @@ background-color: #2e2e2e;
     display: flex;
     flex-direction: column;
     height: 100%;
-    background-color: #222;
+    background-color: white;
     color: #fff;
     padding-top: 56px;
     transition: transform 0.3s ease;
@@ -391,6 +394,11 @@ background-color: #2e2e2e;
   }
   .content-table th:nth-child(2),
   .content-table td:nth-child(2){
+    display: none;
+  }
+
+  .profil_table .content-table th:nth-child(3),
+  .profil_table .content-table td:nth-child(3) {
     display: none;
   }
 }

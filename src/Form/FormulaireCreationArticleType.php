@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class FormulaireCreationArticleType extends AbstractType
 {
@@ -24,7 +25,19 @@ class FormulaireCreationArticleType extends AbstractType
                 'required' => true,
             ])
             ->add('image', FileType::class, [
+                'label' => 'Image (PNG, JPG)',
+                'mapped' => false,
                 'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (PNG ou JPG)',
+                    ])
+                ],
             ])
             ->add('categories', EntityType::class, [
                 'class' => Categories::class,

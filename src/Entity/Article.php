@@ -28,8 +28,8 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $date_modification = null;
 
-    #[ORM\Column(type: Types::BLOB, nullable: true)]
-    private $image = null;
+    #[ORM\Column(nullable: true)]
+    private ?string $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?User $user = null;
@@ -98,12 +98,12 @@ class Article
         return $this;
     }
 
-    public function getImage()
+    public function getImage(): ?string
     {
         return $this->image;
     }
 
-    public function setImage($image): static
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 

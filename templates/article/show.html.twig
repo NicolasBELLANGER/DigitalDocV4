@@ -3,6 +3,11 @@
 {% block content %}
     <div class="content-position">
         <p>{{articles.texte}}</p>
+        {% if articles.image %}
+            <div class="article-image">
+                <img class="size-image" src="{{ asset('uploads/images/' ~ articles.image) }}" alt="Image de {{ articles.titre }}"> 
+            </div>
+        {% endif %}
     </div>
     <div class="content-details">
         <p>Créé par {{ articles.user.prenom }} {{ articles.user.nom }}, le {{articles.getDateCreation() | date('d/m/Y')}}</p>

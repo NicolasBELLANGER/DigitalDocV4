@@ -9,9 +9,11 @@ use App\Form\FormulaireCreationArticleType;
 use App\Form\FormulaireCreationCommentaireType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ArticleController extends AbstractController
 {
@@ -42,7 +44,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/articles/creation', name: 'article_creation')]
-    public function add(ManagerRegistry $doctrine, Request $request)
+    public function add(ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger):Response
     {
         $entityManager = $doctrine->getManager();
 
@@ -57,11 +59,33 @@ class ArticleController extends AbstractController
 
         $formArticle = $this->createForm(FormulaireCreationArticleType::class, $article);
         $formArticle->handleRequest($request);
+
         if($formArticle->isSubmitted() && $formArticle->isValid()){
+            $imageFile = $formArticle->get('image')->getData();
+
+            if($imageFile){
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                try{
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e){
+                    // ... handle exception if something happens during file upload
+                }
+                $article->setImage($newFilename);
+            }
+
+
             $entityManager->persist($article);
             $entityManager->flush();
+
             return $this->redirectToRoute('app_home');
         }
+
         return $this->render('article/form-add.html.twig', [
             'formArticle' => $formArticle->createView(),
         ]);
