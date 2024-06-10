@@ -345,6 +345,10 @@ background-color: #f1f1f1;
 .size-image{
   width: 100%;
 }
+
+.form-email{
+
+}
 /*------------------Responsive--------------------*/
 @media (max-width: 768px) {
   h1{

@@ -8,11 +8,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
+use Webmozart\Assert\Assert as AssertAssert;
 
 class RegistrationFormType extends AbstractType
 {
@@ -36,29 +36,50 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('email')
             ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
+                    new Assert\NotBlank([
+                        'message' => 'Merci de remplir votre mot de passe',
                     ]),
-                    new Length([
-                        'min' => 6,
+                    new Assert\Length([
+                        'min' => 12,
                         'minMessage' => 'Votre mot de passe est trop court',
-                        // max length allowed by Symfony for security reasons
                         'max' => 4096,
+                    ]),
+                    new Assert\Regex([
+                        'pattern' => '/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[\W_]).{12,}$/',
+                        'message' => 'Votre mot de passe doit contenir au moins 12 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial',
                     ]),
                 ],
             ])
-            ->add('nom')
-            ->add('prenom')
+            ->add('nom', TextType::class, [
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Veuillez entrer un nom d\'utilisateur',
+                    ]),
+                    new Assert\Regex([
+                        'pattern' => '/^[a-zA-Z]+$/',
+                        'message' => 'Veuillez saisir un nom d\'utilisateur correct',
+                    ]),
+                ],
+            ])
+            ->add('prenom', TextType::class, [
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Veuillez entrer un prénom d\'utilisateur',
+                    ]),
+                    new Assert\Regex([
+                        'pattern' => '/^[a-zA-Z]+$/',
+                        'message' => 'Veuillez saisir un prénom d\'utilisateur correct',
+                    ]),
+                ],
+            ])
             ->add('role', ChoiceType::class, [
                 'choices' => $choices,
-                'choice_label' => 'nom', // Nom de la propriété à afficher comme libellé dans le champ
-                'multiple' => false, // Permet à l'utilisateur de sélectionner un seul rôle
-                'expanded' => false, // Affiche les rôles comme des cases à cocher plutôt qu'une liste déroulante
+                'choice_label' => 'nom',
+                'multiple' => false,
+                'expanded' => false,
             ])
         ;
     }
