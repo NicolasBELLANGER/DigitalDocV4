@@ -35,9 +35,9 @@ class FormulaireCreationProfilType extends AbstractType
             ->add('prenom')
             ->add('role', ChoiceType::class, [
                 'choices' => $choices,
-                'choice_label' => 'nom', // Nom de la propriété à afficher comme libellé dans le champ
-                'multiple' => false, // Permet à l'utilisateur de sélectionner un seul rôle
-                'expanded' => false, // Affiche les rôles comme des cases à cocher plutôt qu'une liste déroulante
+                'choice_label' => 'nom',
+                'multiple' => false,
+                'expanded' => false, 
             ])
         ;
     }
