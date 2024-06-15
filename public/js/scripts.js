@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var btnHamburger = document.getElementById('btn-hamburger');
     var sideMenu = document.getElementById('side-menu');
     var sideContent = document.querySelector('.side-content');
+    var positionSideMenu = document.querySelector('.position-side-menu');
 
     navbarProfil.addEventListener("click", function() {
         itemMenu.classList.toggle("show");
@@ -20,6 +21,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     btnHamburger.addEventListener('click', function() {
         sideMenu.classList.toggle('hidden');
+        positionSideMenu.classList.toggle('show');
         sideContent.classList.toggle('visible');
     });
+    
 });

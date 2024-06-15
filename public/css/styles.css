@@ -139,6 +139,7 @@ body {
   position: fixed;
   z-index: 1038;
 }
+
 .side-menu{
   display: flex;
   flex-direction: column;
@@ -148,7 +149,7 @@ body {
   border-right: 3px solid #FF5100;
   padding-top: 56px;
   transition: transform 0.3s ease;
-  transform: translateX(0);
+  transform: translateX(0%);
 }
 .side-menu.hidden {
   transform: translateX(-100%);
@@ -245,9 +246,20 @@ background-color: #f1f1f1;
   resize: vertical;
   color: black;
   display: flex;
-  width: 90%;
+  width: 30%;
   margin: 5px 0 10px 0;
 }
+#registration_form_plainPassword_first, #registration_form_plainPassword_second{
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  color: black;
+  display: flex;
+  width: 30%;
+  margin: 5px 0 10px 0;
+}
+
 .form-categories{
   width: 200px;
 }
@@ -336,7 +348,7 @@ background-color: #f1f1f1;
   margin-top: 75px;
 }
 .comment{
-  background-color: #aca1a1;
+  background-color: rgba(172, 161, 161, 0.5);
   padding: 5px 10PX;
   border-radius: 10px;
   font-size: 13px;
@@ -346,9 +358,6 @@ background-color: #f1f1f1;
   width: 100%;
 }
 
-.form-email{
-
-}
 /*------------------Responsive--------------------*/
 @media (max-width: 768px) {
   h1{
@@ -381,16 +390,26 @@ background-color: #f1f1f1;
     color: #fff;
     padding-top: 56px;
     transition: transform 0.3s ease;
+    position: absolute;
+    z-index: 1000;
     transform: translateX(-100%);
   }
-  .side-menu.hidden {
+  .side-menu.hidden{
     transform: translateX(0);
+  }
+  .position-side-menu{
+    width: 225px;
+    height: 100vh;
+    position: fixed;
+    z-index: 1038;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  .position-side-menu.show{
+   transform: translateX(0);
   }
   .side-content{
     padding-left: 0;
-    top: 56px;
-    display: flex;
-    position: relative;
   }
   .content-table th:nth-child(4),
   .content-table td:nth-child(4){
@@ -404,6 +423,26 @@ background-color: #f1f1f1;
   .profil_table .content-table th:nth-child(3),
   .profil_table .content-table td:nth-child(3) {
     display: none;
+  }
+  .form-input{
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    color: black;
+    display: flex;
+    width: 90%;
+    margin: 5px 0 10px 0;
+  }
+  #registration_form_plainPassword_first, #registration_form_plainPassword_second{
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    color: black;
+    display: flex;
+    width: 90%;
+    margin: 5px 0 10px 0;
   }
 }
 /*------------------------------------------------*/

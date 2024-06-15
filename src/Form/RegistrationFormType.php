@@ -6,11 +6,14 @@ use App\Entity\User;
 use App\Repository\RoleRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Webmozart\Assert\Assert as AssertAssert;
 
 class RegistrationFormType extends AbstractType
 {
@@ -32,8 +35,22 @@ class RegistrationFormType extends AbstractType
         }
 
         $builder
-            ->add('email')
-            ->add('plainPassword', PasswordType::class, [
+            ->add('email', EmailType::class,[
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Merci de remplir une adresse mail valide',
+                    ]),
+                    new Assert\Email([
+                        'message' => 'L\'adresse n\'est pas une adresse valide',
+                        'mode' => 'strict'
+                    ])
+                ]
+            ])
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmer le mot de passe'],
+                'invalid_message' => 'Les mots de passes ne sont pas identiques',
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -46,7 +63,7 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                     new Assert\Regex([
-                        'pattern' => '/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[\W_]).{12,}$/',
+                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).*$/',
                         'message' => 'Votre mot de passe doit contenir au moins 12 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial',
                     ]),
                 ],
@@ -57,7 +74,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Veuillez entrer un nom d\'utilisateur',
                     ]),
                     new Assert\Regex([
-                        'pattern' => '/^[a-zA-Z]+$/',
+                        'pattern' => '/^[a-zA-Z\s]+$/',
                         'message' => 'Veuillez saisir un nom d\'utilisateur correct',
                     ]),
                 ],
@@ -68,7 +85,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Veuillez entrer un prénom d\'utilisateur',
                     ]),
                     new Assert\Regex([
-                        'pattern' => '/^[a-zA-Z]+$/',
+                        'pattern' => '/^[a-zA-Z\s]+$/',
                         'message' => 'Veuillez saisir un prénom d\'utilisateur correct',
                     ]),
                 ],

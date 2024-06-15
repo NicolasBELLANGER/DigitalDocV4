@@ -22,7 +22,7 @@
         <h3>Commentaires</h3>
         {% for commentaire in articles.commentaires %}
             <div class="comment">
-                <p>{{ commentaire.texte}}</p>
+                <p>{{ commentaire.texte }}</p>
                 <a class="btn-tab" href="{{ path('commentaire_delete', { 'id': commentaire.id }) }}">
                     <button id="btn-tab" class="btn-tab" href="{{ path('commentaire_delete', { 'id': commentaire.id }) }}">
                         <img class="img-navbar" src="{{ asset('img/poubelle.png') }}">
