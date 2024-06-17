@@ -22,12 +22,15 @@
         <h3>Commentaires</h3>
         {% for commentaire in articles.commentaires %}
             <div class="comment">
+                <p>Par {{commentaire.user.nom}} {{commentaire.user.prenom}}</p>
                 <p>{{ commentaire.texte }}</p>
-                <a class="btn-tab" href="{{ path('commentaire_delete', { 'id': commentaire.id }) }}">
-                    <button id="btn-tab" class="btn-tab" href="{{ path('commentaire_delete', { 'id': commentaire.id }) }}">
-                        <img class="img-navbar" src="{{ asset('img/poubelle.png') }}">
-                    </button>
-                </a>
+                {% if app.user is not null and app.user.role is not null and (app.user.role.nom == 'Administrateur') or commentaire.user == app.user %}
+                    <a class="btn-tab" href="{{ path('commentaire_delete', { 'id': commentaire.id }) }}">
+                        <button id="btn-tab" class="btn-tab" href="{{ path('commentaire_delete', { 'id': commentaire.id }) }}">
+                            <img class="img-navbar" src="{{ asset('img/poubelle.png') }}">
+                        </button>
+                    </a>
+                {% endif %}
             </div>
         {% else %}
             <p>Aucun commentaire pour cet Article</p>

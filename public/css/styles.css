@@ -259,6 +259,16 @@ background-color: #f1f1f1;
   width: 30%;
   margin: 5px 0 10px 0;
 }
+#formulaire_creation_profil_password_first, #formulaire_creation_profil_password_second{
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  color: black;
+  display: flex;
+  width: 30%;
+  margin: 5px 0 10px 0; 
+}
 
 .form-categories{
   width: 200px;
@@ -435,6 +445,16 @@ background-color: #f1f1f1;
     margin: 5px 0 10px 0;
   }
   #registration_form_plainPassword_first, #registration_form_plainPassword_second{
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    color: black;
+    display: flex;
+    width: 90%;
+    margin: 5px 0 10px 0;
+  }
+  #formulaire_creation_profil_password_first, #formulaire_creation_profil_password_second{
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;

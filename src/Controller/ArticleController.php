@@ -131,6 +131,7 @@ class ArticleController extends AbstractController
 
         if($formCommentaire->isSubmitted() && $formCommentaire->isValid()){
             $commentaire->setArticle(($articles));
+            $commentaire->setUser($user);
             $entityManager = $doctrine->getManager();
             $entityManager->persist($commentaire);
             $entityManager->flush();
@@ -163,10 +164,10 @@ class ArticleController extends AbstractController
     public function deleteComment(ManagerRegistry $doctrine, $id)
     {
         $user = $this->getUser();
-        if (!$user instanceof User || !$user->hasRole('Administrateur')) {
+        $commentaire = $doctrine->getRepository(Commentaire::class)->find($id);
+        if (!$user instanceof User || (!$user->hasRole('Administrateur') && $user !== $commentaire->getUser())) {
             return $this->redirectToRoute('app_home');
         }
-        $commentaire = $doctrine->getRepository(Commentaire::class)->find($id);
         $articleId = $commentaire->getArticle()->getId();
         $entityManager = $doctrine->getManager();
         $entityManager->remove($commentaire);
