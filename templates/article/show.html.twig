@@ -2,7 +2,7 @@
 {% block title %}{{articles.titre}}{% endblock %}
 {% block content %}
     <div class="content-position">
-        <p>{{articles.texte}}</p>
+        <p>{{articles.texte|nl2br}}</p>
         {% if articles.image %}
             <div class="article-image">
                 <img class="size-image" src="{{ asset('uploads/images/' ~ articles.image) }}" alt="Image de {{ articles.titre }}"> 
@@ -22,7 +22,11 @@
         <h3>Commentaires</h3>
         {% for commentaire in articles.commentaires %}
             <div class="comment">
-                <p>Par {{commentaire.user.nom}} {{commentaire.user.prenom}}</p>
+                {% if articles.user %}
+                    <p>Créé par {{ articles.user.prenom }} {{ articles.user.nom }}, le {{ articles.getDateCreation() | date('d/m/Y') }}</p>
+                {% else %}
+                    <p>Créé par un utilisateur supprimé, le {{ articles.getDateCreation() | date('d/m/Y') }}</p>
+                {% endif %}
                 <p>{{ commentaire.texte }}</p>
                 {% if app.user is not null and app.user.role is not null and (app.user.role.nom == 'Administrateur') or commentaire.user == app.user %}
                     <a class="btn-tab" href="{{ path('commentaire_delete', { 'id': commentaire.id }) }}">

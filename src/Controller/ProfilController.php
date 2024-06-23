@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
+use App\Entity\Commentaire;
 use App\Entity\User;
 use App\Form\FormulaireCreationProfilType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,34 +39,6 @@ class ProfilController extends AbstractController
             'profils' => $profils,
         ]);
     }
-
-    /*#[Route('/profil/creation', name: 'profil_creation')]
-    public function add(ManagerRegistry $doctrine, Request $request, UserPasswordHasherInterface $profilPasswordHasher)
-    {
-        $entityManager = $doctrine->getManager();
-
-        $profil = new User();
-        $profil->setDateCreation(new \DateTimeImmutable());
-        $formProfil = $this->createForm(FormulaireCreationProfilType::class, $profil);
-        $formProfil->handleRequest($request);
-        if($formProfil->isSubmitted() && $formProfil->isValid()){
-
-            $profil->setPassword(
-                $profilPasswordHasher->hashPassword(
-                    $profil,
-                    $formProfil->get('password')->getData()
-                )
-            );
-
-            $entityManager->persist($profil);
-            $entityManager->flush();
-            return $this->redirectToRoute('profil_list');
-        }
-        
-        return $this->render('profil/form-add.html.twig', [
-            'formProfil' => $formProfil->createView(),
-        ]);
-    }*/
 
     #[Route('/profil/modification/{id}', name: 'profil_modification')]
     public function edit(ManagerRegistry $doctrine, $id, Request $request, UserPasswordHasherInterface $profilPasswordHasher)
@@ -108,6 +82,15 @@ class ProfilController extends AbstractController
         
         $profil = $doctrine->getRepository(User::class)->find($id);
         $entityManager = $doctrine->getManager();
+
+        $commentaires = $doctrine->getRepository(Commentaire::class)->findBy(['user' => $profil]);
+        foreach ($commentaires as $commentaire) {
+            $entityManager->remove($commentaire);
+        }
+        $articles = $entityManager->getRepository(Article::class)->findBy(['user' => $profil]);
+        foreach ($articles as $article) {
+            $entityManager->remove($article);
+        }
         $entityManager->remove($profil);
         $entityManager->flush();
 

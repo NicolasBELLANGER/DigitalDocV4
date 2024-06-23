@@ -17,9 +17,9 @@
                         <td>{{ article.user.prenom }} {{ article.user.nom }}</td>
                         <td>{{ article.categories.nom }}</td>
                         <td>{% if article.getDateModification() is null %}
-                                {{ article.getDateCreation() | date('d/m/Y H:i:s') }}
+                                {{ article.getDateCreation() | date('d/m/Y') }}
                             {% else %}
-                                {{ article.getDateModification() | date('d/m/Y H:i:s') }}
+                                {{ article.getDateModification() | date('d/m/Y') }}
                             {% endif %}</td>
                     </tr>
                     {% endfor %}

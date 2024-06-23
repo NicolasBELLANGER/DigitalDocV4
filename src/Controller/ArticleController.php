@@ -124,7 +124,6 @@ class ArticleController extends AbstractController
 
         $articles = $doctrine->getRepository(Article::class)->find($id);
 
-        //Création du formulaire de commentaire
         $commentaire = new Commentaire();
         $formCommentaire = $this->createForm(FormulaireCreationCommentaireType::class, $commentaire);
         $formCommentaire->handleRequest($request);
@@ -154,6 +153,11 @@ class ArticleController extends AbstractController
 
         $article = $doctrine->getRepository(Article::class)->find($id);
         $entityManager = $doctrine->getManager();
+        
+        $commentaires = $doctrine->getRepository(Commentaire::class)->findBy(['article' => $article]);
+        foreach ($commentaires as $commentaire) {
+            $entityManager->remove($commentaire);
+        }
         $entityManager->remove($article);
         $entityManager->flush();
 
