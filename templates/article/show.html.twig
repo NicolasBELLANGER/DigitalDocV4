@@ -23,7 +23,7 @@
         {% for commentaire in articles.commentaires %}
             <div class="comment">
                 {% if articles.user %}
-                    <p>Créé par {{ articles.user.prenom }} {{ articles.user.nom }}, le {{ articles.getDateCreation() | date('d/m/Y') }}</p>
+                    <p>Créé par {{ commentaire.user.prenom }} {{ commentaire.user.nom }}, le {{ articles.getDateCreation() | date('d/m/Y') }}</p>
                 {% else %}
                     <p>Créé par un utilisateur supprimé, le {{ articles.getDateCreation() | date('d/m/Y') }}</p>
                 {% endif %}
